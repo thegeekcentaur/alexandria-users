@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  user-service:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    image: local/alexandria-users:1.0.001
+    ports:
+      - 9001:9001
+    environment:
+      - PORT=9001
+      - SERVICE_NAME=alexandria-users
+      - MONGO_CONNECTION_URL=mongodb://mongo:27017/
+    depends_on:
+      - mongo
+  mongo:
+    container_name: mongodb
+    image: mongo:4.4.4
+    ports:
+      - 27017:27017
