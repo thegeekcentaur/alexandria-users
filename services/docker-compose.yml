@@ -8,9 +8,9 @@ services:
       context: .
     image: local/alexandria-users:1.0.001
     ports:
-      - 9001:9001
+      - 9001:9000
     environment:
-      - PORT=9001
+      - PORT=9000
       - SERVICE_NAME=alexandria-users
       - MONGO_CONNECTION_URL=mongodb://mongo:27017/
     depends_on:
