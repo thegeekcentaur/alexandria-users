@@ -14,8 +14,6 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Import routes here
-from services.book_service_v1 import router as BookServiceRouteV1
-from services.catalog_service_v1 import router as CatalogServiceRouteV1
 from services.user_service_v1 import router as UserServiceRouteV1
 
 app = FastAPI(debug=True)
