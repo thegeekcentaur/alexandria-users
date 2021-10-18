@@ -15,14 +15,14 @@ get_book_details_by_genre = "http://book-service:9000/books/api/books/genre/{}"
 get_book_details_by_publisher = "http://book-service:9000/books/api/books/publishers/{}"
 
 # Catalog APIs
-create_catalog_url = "http://catalogs-service:9002/catalogs/api/catalogs/local"
-add_book_to_catalog_url = "http://catalogs-service:9002/catalogs/api/catalogs/local/name/{}/{}"
-update_books_to_catalog_url = "http://catalogs-service:9002/catalogs/api/catalogs/local/name/{}/books"
-delete_books_from_catalog_url = "http://catalogs-service:9002/catalogs/api/catalogs/local/name/{}/books"
-get_all_catalogs_of_user_url = "http://catalogs-service:9002/catalogs/api/catalogs/local/name/{}"
-get_books_of_catalog_url = "http://catalogs-service:9002/catalogs/api/catalogs/local/books"
-delete_catalog_by_name_url = "http://catalogs-service:9002/catalogs/api/catalogs/local/name/{}"
-get_all_catalogs_url = "http://catalogs-service:9002/catalogs/api/catalogs/local/all"
+create_catalog_url = "http://catalogs-service:9000/catalogs/api/catalogs/local"
+add_book_to_catalog_url = "http://catalogs-service:9000/catalogs/api/catalogs/local/name/{}/{}"
+update_books_to_catalog_url = "http://catalogs-service:9000/catalogs/api/catalogs/local/name/{}/books"
+delete_books_from_catalog_url = "http://catalogs-service:9000/catalogs/api/catalogs/local/name/{}/books"
+get_all_catalogs_of_user_url = "http://catalogs-service:9000/catalogs/api/catalogs/local/name/{}"
+get_books_of_catalog_url = "http://catalogs-service:9000/catalogs/api/catalogs/local/books"
+delete_catalog_by_name_url = "http://catalogs-service:9000/catalogs/api/catalogs/local/name/{}"
+get_all_catalogs_url = "http://catalogs-service:9000/catalogs/api/catalogs/local/all"
 
 #Added By Surendar S BITs
 #User Management APIs
