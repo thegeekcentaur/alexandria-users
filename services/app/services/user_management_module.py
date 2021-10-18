@@ -12,27 +12,30 @@ from typing import Optional
 import requests
 import logging
 from core import database
-from services import (book_details_module)
+from api.routes import urls
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-def get_search_term_and_filter_type(isbn: str, author_name: str, subject: str, publisher_name: str):
+def get_model_for_book_search_api(isbn: str, author_name: str, subject: str, publisher_name: str):
     if isbn:
-        return {"search_term": isbn, "filter": "isbn"}
+        return {"search_term": isbn, "filter": "isbn", "api_url": urls.get_book_details_by_isbn.format(isbn)}
     elif author_name:
-        return {"search_term": author_name, "filter": "inauthor"}
+        return {"search_term": author_name, "filter": "inauthor", "api_url": urls.get_book_details_by_author.format(author_name)}
     elif subject:
-        return {"search_term": subject, "filter": "subject"}
+        return {"search_term": subject, "filter": "subject", "api_url": urls.get_book_details_by_genre.format(subject)}
     elif publisher_name:
-        return {"search_term": publisher_name, "filter": "inpublisher"}
+        return {"search_term": publisher_name, "filter": "inpublisher", "api_url": urls.get_book_details_by_publisher.format(publisher_name)}
     else:
         return {"filter": "invalid_filter"}
 
-async def search_book_by_filter(search_term: str, filter: str):    
-    search_response = book_details_module.get_books_by_filter(filter, search_term)
+async def search_book_by_filter(search_model):
+    url = search_model["api_url"]
+    headers = {"Accept" : "application/json"}
+    logger.info("Calling {} with header {} ...".format(url, headers))
+    search_response = requests.get(url, headers=headers)
     if search_response:
-        logger.info("Book search response: {}".format(search_response))
-        return search_response
+        logger.info("Book search response: {}".format(search_response.json()))
+        return search_response.json()
     else:
         raise HTTPException(
             status_code=404,
