@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 from api.routes import urls
 from models.schemas.user import ( UserSchema )
 from models.schemas.catalog import ( CatalogSchema )
+from models.schemas.catalog_book_list import ( CatalogBookSchema )
 
 router = APIRouter()
 
@@ -165,7 +166,7 @@ async def get_all_books_from_catalog_for_user_id(user_id: str, catalog_name: str
     await validateUser(user_id)
     
     url = urls.get_books_of_catalog_url
-    params = {"user_id": user_id}
+    params = {"user_id": user_id, "catalog_name": catalog_name}
 
     logger.info("Calling {} with params {} ".format(url, params))
     api_response = requests.get(url, params=params)
@@ -179,24 +180,25 @@ async def save_catalog_by_user_id(user_id: str, catalog_data: CatalogSchema = Bo
     await validateUser(user_id)
 
     url = urls.create_catalog_url
-    headers = {"Accept" : "application/json"}
+    headers = {"Accept" : "application/json", "Content-Type": "application/json"}
 
-    logger.info("Calling {} with header {} ".format(url, headers))
-    api_response = requests.post(url, headers, catalog_data)
+    logger.info("Calling {} with Request Body: {}".format(url, catalog_data.json()))
+    api_response = requests.post(url, data = catalog_data.json(), headers=headers)
     logger.info("API repsone: {}".format(api_response.json()))
     return api_response.json()
 
 # Update the book list in a catalog:
 @router.put(urls.update_books_in_catalog_for_user_id)
-async def update_books_in_catalog_for_user_id(user_id: str, catalog_name: str, books_list: list[str]):
+async def update_books_in_catalog_for_user_id(user_id: str, catalog_name: str, books_list: CatalogBookSchema = Body(...)):
     # User validation
     await validateUser(user_id)
     
     url = urls.update_books_to_catalog_url.format(catalog_name)
     params = {"user_id": user_id}
+    headers = {"Accept" : "application/json", "Content-Type": "application/json"}
 
-    logger.info("Calling {} with params {} ".format(url, params))
-    api_response = requests.put(urls.update_books_to_catalog_url, books_list, params=params)
+    logger.info("Calling {} with params {}, with Request Body: {}".format(url, params, books_list.json()))
+    api_response = requests.put(url, data = books_list.json(), headers=headers, params=params)
     logger.info("API repsone: {}".format(api_response.json()))
     return api_response.json()
 
@@ -209,8 +211,8 @@ async def delete_catalog_by_name_for_user_id(user_id: str, catalog_name: str):
     url = urls.delete_catalog_by_name_url.format(catalog_name)
     params = {"user_id": user_id}
 
-    logger.info("Calling {} with params {} ".format(url, params))
-    api_response = requests.get(urls.delete_catalog_by_name_url, params=params)
+    logger.info("Calling {} with params {}".format(url, params))
+    api_response = requests.delete(url, params=params)
     logger.info("API repsone: {}".format(api_response.json()))
     return api_response.json()
 

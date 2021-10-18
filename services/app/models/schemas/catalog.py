@@ -11,7 +11,7 @@ class CatalogSchema(BaseModel):
         schema_extra = {
             "example": {
                 "name": "Favourites",
-                "user_id": "Bob",
+                "user_id": "user_surendar",
                 "description": "To Read",
                 "books_list": [
                     "9780684846842",
